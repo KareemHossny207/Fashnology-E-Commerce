@@ -22,10 +22,15 @@ app.use('/api/order',orderRouter)
 
 const PORT = process.env.PORT || 5777;
 
-app.listen(PORT, (err) => {
-  if (err) {
-    console.error('Error starting server:', err);
-    return;
-  }
-  console.log(`Server is running on port ${PORT}`);
-});
+// Only start the server locally, not on Vercel
+if (process.env.VERCEL !== "1") {
+  app.listen(PORT, (err) => {
+    if (err) {
+      console.error('Error starting server:', err);
+      return;
+    }
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
