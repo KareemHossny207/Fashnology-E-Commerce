@@ -15,13 +15,14 @@ app.use(express.json());
 if (typeof connectingDB === 'function') connectingDB();
 if (typeof connectingcloudinary === 'function') connectingcloudinary();
 
-app.use('/', (req, res) => {
-  res.send('API is running!');
-});
 app.use('/api/user',userRouter)
 app.use('/api/product',productRouter)
 app.use('/api/cart',cartRouter)
 app.use('/api/order',orderRouter)
+
+app.use('/', (req, res) => {
+  res.send('API is running!');
+});
 
 const PORT = process.env.PORT || 5777;
 

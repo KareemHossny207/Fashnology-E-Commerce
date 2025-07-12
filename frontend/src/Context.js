@@ -37,13 +37,15 @@ const ContextProvider = (props) => {
   const getAll = async () => {
     try {
       const response = await axios.get('http://localhost:5777/api/product/all');
-      if (response.data && response.data.success) {
+      if (response.data && response.data.success && Array.isArray(response.data.products)) {
         setAllproducts(response.data.products);
       } else {
         toast.error(response.data?.message || 'Failed to fetch products');
+        setAllproducts([]); // Ensure allproducts is reset on failure
       }
     } catch (error) {
-      toast.error(error?.message || 'An error occurred while fetching products');
+      toast.error(error?.response?.data?.message || error?.message || 'An error occurred while fetching products');
+      setAllproducts([]); // Ensure allproducts is reset on error
     }
   };
 
