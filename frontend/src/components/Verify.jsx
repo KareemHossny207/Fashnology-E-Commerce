@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -6,57 +6,64 @@ import { Context } from '../Context';
 
 const Verify = () => {
     const { token, setCartitems } = useContext(Context);
-    const [searchparams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    const success = searchparams.get('success');
-    const orderId = searchparams.get('orderId');
 
     useEffect(() => {
         const verifyPayment = async () => {
+            const success = searchParams.get('success');
+            const orderId = searchParams.get('orderId');
+
+            if (!token) {
+                toast.error("You must be logged in to verify payment.");
+                navigate('/login');
+                return;
+            }
+            if (!success || !orderId) {
+                toast.error("Invalid verification link.");
+                navigate('/Cart');
+                return;
+            }
+
+            let userId;
             try {
-                if (!token) return;
-                // Optionally, get userId from token if needed
-                const userId = JSON.parse(atob(token.split('.')[1])).id;
+                userId = JSON.parse(atob(token.split('.')[1])).id;
+            } catch (e) {
+                toast.error("Invalid token.");
+                navigate('/login');
+                return;
+            }
+
+            try {
                 const response = await axios.post(
                     "https://backende-commerce-kappa.vercel.app/api/order/verifystripe",
                     { success, orderId, userId },
                     { headers: { token } }
                 );
-                if (response.data.success) {
+                if (response.data && response.data.success) {
                     setCartitems({});
+                    toast.success("Payment verified! Redirecting to your orders...");
                     navigate('/Orders');
                 } else {
+                    toast.error(response.data?.message || "Payment verification failed.");
                     navigate('/Cart');
                 }
             } catch (error) {
-                setError(error?.response?.data?.message || error.message || "Verification failed");
                 toast.error(error?.response?.data?.message || error.message || "Verification failed");
-            } finally {
-                setLoading(false);
+                navigate('/Cart');
             }
         };
+
         verifyPayment();
         // eslint-disable-next-line
-    }, [token, success, orderId, setCartitems, navigate]);
+    }, [token, setCartitems, navigate, searchParams]);
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="text-lg text-gray-700">Verifying payment...</div>
-            </div>
-        );
-    }
-    if (error) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="text-lg text-red-600">{error}</div>
-            </div>
-        );
-    }
-    return null;
+    // Always show a loading spinner while verifying, since navigation will occur after
+    return (
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="text-lg text-gray-700">Verifying payment...</div>
+        </div>
+    );
 };
 
 export default Verify;

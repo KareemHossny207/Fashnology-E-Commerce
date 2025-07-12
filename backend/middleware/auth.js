@@ -5,7 +5,7 @@ const userauth =async(req,res,next)=>{
     console.log("Auth middleware - token from headers:", token);
     if (!token) {
         console.log("No token provided");
-        return res.json({success:false, message:"Not Authorized"})
+        return res.json({success:false, message:"Login First"})
     }
     try {
         const token_decode = jwt.verify(token ,process.env.JWT_SECRET);

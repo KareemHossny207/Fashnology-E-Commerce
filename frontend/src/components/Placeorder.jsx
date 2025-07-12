@@ -70,7 +70,6 @@ const Placeorder = () => {
           try {
             await axios.post("https://backende-commerce-kappa.vercel.app/api/cart/removeall", {}, { headers: { token } });
           } catch (removeErr) {
-            // Optionally show error, but don't block navigation
             console.log('Backend cart clear error:', removeErr);
           }
           toast.success("Order placed successfully!");
