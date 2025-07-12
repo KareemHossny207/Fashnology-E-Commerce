@@ -9,10 +9,11 @@ const productRouter=require("./routes/product")
 const cartRouter=require("./routes/cart")
 const orderRouter=require("./routes/order")
 
-// Configure CORS to allow requests from admin domain
+// Configure CORS to allow requests from admin and frontend domains
 app.use(cors({
   origin: [
     'https://admin-e-commerce-peach.vercel.app',
+    'https://frontende-commerce.vercel.app',
     'http://localhost:3000',
     'http://localhost:3001'
   ],
