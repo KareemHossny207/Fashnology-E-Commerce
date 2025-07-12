@@ -58,7 +58,7 @@ const Create = ({ token }) => {
       if (image3) formData.append("image3", image3)
       if (image4) formData.append("image4", image4)
 
-      const response = await axios.post('https://backende-commerce-kappa.vercel.app/api/product/Create', formData, {
+      const response = await axios.post('https://backende-commerce-kappa.vercel.app/api/product/create', formData, {
         headers: {
           'token': token,
           'Content-Type': 'multipart/form-data'
