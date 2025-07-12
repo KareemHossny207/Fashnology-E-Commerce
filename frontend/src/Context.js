@@ -43,7 +43,6 @@ const ContextProvider = (props) => {
         toast.error(response.data?.message || 'Failed to fetch products');
       }
     } catch (error) {
-      console.error(error);
       toast.error(error?.message || 'An error occurred while fetching products');
     }
   };
