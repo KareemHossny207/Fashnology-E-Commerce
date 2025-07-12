@@ -1,12 +1,7 @@
 const multer = require('multer');
 
-const storage = multer.diskStorage({
-  destination: function(req, file, callback) {
-    callback(null, 'uploads/');
-  },
-  filename: function(req, file, callback) {
-    callback(null, file.originalname);
-  }
-});
+// Use memory storage for Vercel deployment
+// Vercel doesn't have persistent file system, so we can't use disk storage
+const storage = multer.memoryStorage();
 
 module.exports = multer({ storage: storage });

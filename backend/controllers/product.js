@@ -51,19 +51,29 @@ exports.createProduct = async (req, res) => {
 
         console.log('Starting image upload to Cloudinary...');
         
-        // Use Promise.all to upload all images concurrently for better performance
-        imageUrls = await Promise.all(
-          images.map(async (item, index) => {
-            console.log(`Uploading image ${index + 1}:`, item.originalname);
-            // Upload each image to Cloudinary and return the secure URL
-            const result = await cloudinary.uploader.upload(item.path, { 
+        // Upload images to Cloudinary using buffer
+        imageUrls = [];
+        for (let i = 0; i < images.length; i++) {
+          const item = images[i];
+          console.log(`Uploading image ${i + 1}:`, item.originalname);
+          
+          try {
+            // Convert buffer to base64 string for Cloudinary upload
+            const base64Image = item.buffer.toString('base64');
+            const dataURI = `data:${item.mimetype};base64,${base64Image}`;
+            
+            const result = await cloudinary.uploader.upload(dataURI, { 
               resource_type: 'image',
               folder: 'products' // Optional: organize images in a folder
             });
-            console.log(`Image ${index + 1} uploaded successfully:`, result.secure_url);
-            return result.secure_url;
-          })
-        );
+            
+            console.log(`Image ${i + 1} uploaded successfully:`, result.secure_url);
+            imageUrls.push(result.secure_url);
+          } catch (uploadError) {
+            console.error(`Error uploading image ${i + 1}:`, uploadError);
+            throw uploadError;
+          }
+        }
         
         console.log('All images uploaded successfully:', imageUrls);
       } catch (uploadError) {

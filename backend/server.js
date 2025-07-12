@@ -9,7 +9,18 @@ const productRouter=require("./routes/product")
 const cartRouter=require("./routes/cart")
 const orderRouter=require("./routes/order")
 
-app.use(cors());
+// Configure CORS to allow requests from admin domain
+app.use(cors({
+  origin: [
+    'https://admin-e-commerce-peach.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'token']
+}));
+
 app.use(express.json());
 
 if (typeof connectingDB === 'function') connectingDB();
@@ -22,6 +33,16 @@ app.use('/api/order',orderRouter)
 
 app.use('/', (req, res) => {
   res.send('API is running!');
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Global error handler:', err);
+  res.status(500).json({
+    success: false,
+    message: 'Internal server error',
+    error: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
+  });
 });
 
 const PORT = process.env.PORT || 5777;
