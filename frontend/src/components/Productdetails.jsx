@@ -32,7 +32,6 @@ const Productdetails = () => {
         );
     }
 
-    // Fix: Use _id for addToCart, and handle missing images gracefully
     const handleAddToCart = () => {
         // If sizes are available, require a size to be selected
         if (productdata.sizes && Array.isArray(productdata.sizes) && productdata.sizes.length > 0 && !size) {
@@ -161,7 +160,7 @@ const Productdetails = () => {
                                     </li>
                                     <li className='flex items-center gap-2'>
                                         <span className='w-2 h-2 bg-green-500 rounded-full'></span>
-                                        30-day return policy
+                                        7-days return policy
                                     </li>
                                     <li className='flex items-center gap-2'>
                                         <span className='w-2 h-2 bg-green-500 rounded-full'></span>
