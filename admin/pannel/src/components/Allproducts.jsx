@@ -7,7 +7,7 @@ const Allproducts = ({token}) => {
 
   const fetchAll = async () => {
     try {
-      const response = await axios.get('http://localhost:5777/api/product/all');
+      const response = await axios.get('https://backende-commerce-kappa.vercel.app/api/product/all');
       if (response.data.success) {
         setList(response.data.products)
       } else {
@@ -20,7 +20,7 @@ const Allproducts = ({token}) => {
   } 
 const deleteProduct = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:5777/api/product/${id}`,{headers:{token}});
+    const response = await axios.delete(`https://backende-commerce-kappa.vercel.app/api/product/${id}`,{headers:{token}});
     if (response.data.success) {
       toast.success('Product deleted successfully');
       fetchAll(); // Refresh the list after deletion

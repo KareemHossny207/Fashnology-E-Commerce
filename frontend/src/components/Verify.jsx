@@ -21,7 +21,7 @@ const Verify = () => {
                 // Optionally, get userId from token if needed
                 const userId = JSON.parse(atob(token.split('.')[1])).id;
                 const response = await axios.post(
-                    "http://localhost:5777/api/order/verifystripe",
+                    "https://backende-commerce-kappa.vercel.app/api/order/verifystripe",
                     { success, orderId, userId },
                     { headers: { token } }
                 );

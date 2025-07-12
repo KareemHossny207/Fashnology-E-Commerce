@@ -61,14 +61,14 @@ const Placeorder = () => {
     if (payment === 'cod') {
       try {
         const response = await axios.post(
-          "http://localhost:5777/api/order/place",
+          "https://backende-commerce-kappa.vercel.app/api/order/place",
           orderData,
           { headers: { token } }
         );
         if (response.data.success) {
           setCartitems({});
           try {
-            await axios.post("http://localhost:5777/api/cart/removeall", {}, { headers: { token } });
+            await axios.post("https://backende-commerce-kappa.vercel.app/api/cart/removeall", {}, { headers: { token } });
           } catch (removeErr) {
             // Optionally show error, but don't block navigation
             console.log('Backend cart clear error:', removeErr);
@@ -83,7 +83,7 @@ const Placeorder = () => {
         console.log('Order error:', error);
       }
     } else if (payment === 'stripe') {
-      const responseStripe = await axios.post("http://localhost:5777/api/order/stripe",orderData,{headers:{token}})
+      const responseStripe = await axios.post("https://backende-commerce-kappa.vercel.app/api/order/stripe",orderData,{headers:{token}})
       if (responseStripe.data.success) {
         const {session_url}=responseStripe.data
         window.location.replace(session_url)

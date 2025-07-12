@@ -8,7 +8,7 @@ const Login = ({ setToken }) => {
     const onsubmithandler = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post('http://localhost:5777/api/user/Admin', { email, password });
+        const response = await axios.post('https://backende-commerce-kappa.vercel.app/api/user/Admin', { email, password });
         if (response.data.success) {
           setToken(response.data.token);
         } else {

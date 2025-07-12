@@ -21,11 +21,11 @@ const Dashboard = ({ token }) => {
     setLoading(true)
     try {
       // Fetch products count
-      const productsResponse = await axios.get('http://localhost:5777/api/product/all')
+      const productsResponse = await axios.get('https://backende-commerce-kappa.vercel.app/api/product/all')
       const totalProducts = productsResponse.data?.success ? productsResponse.data.products?.length || 0 : 0
 
       // Fetch orders count and recent orders
-      const ordersResponse = await axios.get('http://localhost:5777/api/order/all')
+      const ordersResponse = await axios.get('https://backende-commerce-kappa.vercel.app/api/order/all')
       const orders = ordersResponse.data?.success ? ordersResponse.data.orders || [] : []
       const totalOrders = orders.length
       

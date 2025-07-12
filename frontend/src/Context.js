@@ -36,7 +36,7 @@ const ContextProvider = (props) => {
   // Fetch all products from the backend
   const getAll = async () => {
     try {
-      const response = await axios.get('http://localhost:5777/api/product/all');
+      const response = await axios.get('https://backende-commerce-kappa.vercel.app/api/product/all');
       if (response.data && response.data.success && Array.isArray(response.data.products)) {
         setAllproducts(response.data.products);
       } else {
@@ -78,7 +78,7 @@ const ContextProvider = (props) => {
     
     try {
       // Get current backend cart
-      const response = await axios.post("http://localhost:5777/api/cart/get", {}, { headers: { token } });
+      const response = await axios.post("https://backende-commerce-kappa.vercel.app/api/cart/get", {}, { headers: { token } });
       const backendCart = response.data?.success ? response.data.cartData : {};
       
       // Merge local cart with backend cart
@@ -95,7 +95,7 @@ const ContextProvider = (props) => {
       // Update backend with merged cart
       for (const [itemId, sizes] of Object.entries(mergedCart)) {
         for (const [size, quantity] of Object.entries(sizes)) {
-          await axios.post("http://localhost:5777/api/cart/update", {
+          await axios.post("https://backende-commerce-kappa.vercel.app/api/cart/update", {
             itemId,
             size,
             quantity
@@ -130,7 +130,7 @@ const ContextProvider = (props) => {
         },
       }));
       if (token) {
-        axios.post("http://localhost:5777/api/cart/add", {
+        axios.post("https://backende-commerce-kappa.vercel.app/api/cart/add", {
           itemId: _id,
           size: size
         }, {
@@ -157,7 +157,7 @@ const ContextProvider = (props) => {
       return newCart;
     });
     if (token) {
-      axios.post("http://localhost:5777/api/cart/removefromcart", {
+      axios.post("https://backende-commerce-kappa.vercel.app/api/cart/removefromcart", {
         itemId: _id,
         size: size
       }, {
@@ -185,7 +185,7 @@ const ContextProvider = (props) => {
         };
       });
       if (token) {
-        axios.post("http://localhost:5777/api/cart/update", {
+        axios.post("https://backende-commerce-kappa.vercel.app/api/cart/update", {
           itemId: _id,
           size: size,
           quantity
@@ -203,7 +203,7 @@ const ContextProvider = (props) => {
     setCartitems({});
     toast.info('Cart cleared');
     if (token) {
-      axios.post("http://localhost:5777/api/cart/removeall", {}, {
+      axios.post("https://backende-commerce-kappa.vercel.app/api/cart/removeall", {}, {
         headers: { token }
       }).catch((error) => {
         toast.error(error.message);
@@ -232,7 +232,7 @@ const ContextProvider = (props) => {
   const getCartUser = async (token) => {
     if (!token) return;
     try {
-      const response = await axios.post("http://localhost:5777/api/cart/get", {}, { headers: { token } });
+      const response = await axios.post("https://backende-commerce-kappa.vercel.app/api/cart/get", {}, { headers: { token } });
       if (response.data && response.data.success && response.data.cartData) {
         const normalized = normalizeCart(response.data.cartData);
         setCartitems(normalized);
@@ -258,7 +258,7 @@ const ContextProvider = (props) => {
     }
     if (storedToken && allproducts.length > 0) {
       // Always fetch backend cart first
-      axios.post("http://localhost:5777/api/cart/get", {}, { headers: { token: storedToken } })
+      axios.post("https://backende-commerce-kappa.vercel.app/api/cart/get", {}, { headers: { token: storedToken } })
         .then(response => {
           const backendCart = response.data?.success ? response.data.cartData : {};
           if (Object.keys(backendCart).length === 0) {

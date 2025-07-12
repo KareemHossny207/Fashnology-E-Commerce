@@ -30,7 +30,7 @@ const Login = () => {
           toast.error("Passwords do not match.");
           return;
         }
-        const response = await axios.post("http://localhost:5777/api/user/Register", { name, email, password });
+        const response = await axios.post("https://backende-commerce-kappa.vercel.app/api/user/Register", { name, email, password });
         if (response.data && response.data.success) {
           if (response.data.token) {
           setToken(response.data.token);
@@ -50,7 +50,7 @@ const Login = () => {
           toast.error("Please enter email and password.");
           return;
         }
-        const response = await axios.post("http://localhost:5777/api/user/Login", { email, password });
+        const response = await axios.post("https://backende-commerce-kappa.vercel.app/api/user/Login", { email, password });
         if (response.data && response.data.success && response.data.token) {
           setToken(response.data.token);
           localStorage.setItem('token', response.data.token);

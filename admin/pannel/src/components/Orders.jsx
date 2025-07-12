@@ -11,7 +11,7 @@ const Orders = ({ token }) => {
     setLoading(true)
     try {
       const response = await axios.get(
-        "http://localhost:5777/api/order/all",{},)
+        "https://backende-commerce-kappa.vercel.app/api/order/all",{},)
       if (response.data && response.data.success && Array.isArray(response.data.orders)) {
         setOrders(response.data.orders)
       } else {
@@ -35,7 +35,7 @@ const Orders = ({ token }) => {
     setUpdatingStatus(prev => ({ ...prev, [orderId]: true }))
     try {
       const response = await axios.put(
-        "http://localhost:5777/api/order/status",
+        "https://backende-commerce-kappa.vercel.app/api/order/status",
         {
           orderId,
           status: newStatus

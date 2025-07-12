@@ -14,7 +14,7 @@ const Orders = () => {
       setLoading(true);
       // The backend expects userId in the POST body, not as a GET param
       const response = await axios.post(
-        "http://localhost:5777/api/order/userorders",
+        "https://backende-commerce-kappa.vercel.app/api/order/userorders",
         {}, // no userId needed
         { headers: { token } }
       );
