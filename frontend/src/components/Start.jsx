@@ -28,7 +28,7 @@ const Start = () => {
         {/* Right Section - Image */}
         <div className="w-full md:w-1/2 flex items-center justify-center">
           <img
-            src="/images/joyful-girl-lush-white-skirt-looking-down-with-inspired-smile-refined-brunette-lady-long-warm-scarf-dreamy-posing-purple-wall.jpg"
+            src="\images\joyful-girl-lush-white-skirt-looking-down-with-inspired-smile-refined-brunette-lady-long-warm-scarf-dreamy-posing-purple-wall.jpg"
             alt="Model"
             className="w-full h-[180px] xs:h-[220px] sm:h-[260px] md:h-[350px] object-cover object-center transition-all duration-300"
           />
